@@ -5,21 +5,20 @@ import datetime
 
 class Sun:
 
-    def getSunriseTime( self, coords ):
-        return self.calcSunTime( coords, True )
+    def getSunriseTime( self, coords, date = datetime.datetime.now() ):
+        return self.calcSunTime( coords, True, date )
 
-    def getSunsetTime( self, coords ):
-        return self.calcSunTime( coords, False )
+    def getSunsetTime( self, coords, date = datetime.datetime.now() ):
+        return self.calcSunTime( coords, False, date )
 
-    def getCurrentUTC( self ):
-        now = datetime.datetime.now()
+    def getCurrentUTC( self, now ):
         return [ now.day, now.month, now.year ]
 
-    def calcSunTime( self, coords, isRiseTime, zenith = 90.8 ):
+    def calcSunTime( self, coords, isRiseTime, date, zenith = 90.8 ):
 
         # isRiseTime == False, returns sunsetTime
 
-        day, month, year = self.getCurrentUTC()
+        day, month, year = self.getCurrentUTC( date )
 
         longitude = coords['longitude']
         latitude = coords['latitude']
