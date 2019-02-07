@@ -3,6 +3,7 @@
 
 from Sun import Sun
 from datetime import timedelta, date, datetime
+import uuid
 
 def forceRange( v, max ):
   # force v to be >= 0 and < max
@@ -31,8 +32,8 @@ def daterange(start_date, end_date):
 
 #start_date = date(2019, 1, 1)
 #end_date = date(2019, 12, 31)
-start_date = date(2019, 1, 25)
-end_date = date(2019, 2, 1)
+start_date = date(2019, 2, 10)
+end_date = date(2019, 2, 28)
 
 date = datetime.now()
 gy = int(date.strftime("%Y"))
@@ -50,8 +51,8 @@ for single_date in daterange(start_date, end_date):
   dm = int(single_date.strftime("%m"))
   dd = int(single_date.strftime("%d"))
 
-  sunrise = sun.getSunriseTime( coords, single_date )['decimal'] # + TIMEZONE
-  sunset = sun.getSunsetTime( coords, single_date )['decimal'] # + TIMEZONE
+  sunrise = sun.getSunriseTime( coords, single_date )['decimal'] + TIMEZONE
+  sunset = sun.getSunsetTime( coords, single_date )['decimal'] + TIMEZONE
   daylong = sunset - sunrise
   #print daylong
   hora = daylong/8
@@ -60,7 +61,7 @@ for single_date in daterange(start_date, end_date):
 
 
   print "BEGIN:VEVENT"
-  print "UID:0@rahukala.spiridonov.semion"
+  print "UID:"+uuid.uuid4().hex+"@rahukala.spiridonov.semion"
   print "CLASS:PUBLIC"
   print "DESCRIPTION:Постарайтесь не планировать важные дела на этот временной промежуток."
   print "DTSTAMP;VALUE=DATE-TIME:%d%02d%02dT090000" % (gy,gm,gd)
@@ -91,27 +92,27 @@ for single_date in daterange(start_date, end_date):
   print "DTEND;VALUE=DATE-TIME:%d%02d%02dT%02d%02d00" % (dy,dm,dd,eh,em)
   print "LOCATION:Москва, Россия"
   print "SUMMARY;LANGUAGE=en-us:Раху Кала неблагоприятное время"
-  print "TRANSP:TRANSPARENT"
+  print "TRANSP:OPAQUE"
   print "END:VEVENT"
 
 
 
   print "BEGIN:VEVENT"
-  print "UID:0@rahukala.spiridonov.semion"
+  print "UID:"+uuid.uuid4().hex+"@rahukala.spiridonov.semion"
   print "CLASS:PUBLIC"
   print "DESCRIPTION:Постарайтесь не планировать важные дела на этот временной промежуток."
   print "DTSTAMP;VALUE=DATE-TIME:%d%02d%02dT090000" % (gy,gm,gd)
 
   #print hm(sunset)
   #print hm(sunset + hora)
-  [sh,sm] = hm(sunrise)
-  [eh,em] = hm(sunrise + hora)
+  [sh,sm] = hm(sunset)
+  [eh,em] = hm(sunset + hora)
 
   print "DTSTART;VALUE=DATE-TIME:%d%02d%02dT%02d%02d00" % (dy,dm,dd,sh,sm)
   print "DTEND;VALUE=DATE-TIME:%d%02d%02dT%02d%02d00" % (dy,dm,dd,eh,em)
   print "LOCATION:Москва, Россия"
   print "SUMMARY;LANGUAGE=en-us:Раху Кала после заката неблагоприятное время"
-  print "TRANSP:TRANSPARENT"
+  print "TRANSP:OPAQUE"
   print "END:VEVENT"
 
 print "END:VCALENDAR"
