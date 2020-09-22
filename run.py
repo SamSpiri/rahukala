@@ -20,8 +20,11 @@ def hm(UT):
   return [hr,min]
 
 
-coords = {'longitude' : 37.615638, 'latitude' : 55.760185 }
-TIMEZONE = 3
+#coords = {'latitude' : 55.760185, 'longitude' : 37.615638 }
+coords = {'latitude' : 51.5078636, 'longitude' : 7.4002233 }
+
+#TIMEZONE = 3
+#TIMEZONE = 1
 
 sun = Sun()
 
@@ -32,8 +35,8 @@ def daterange(start_date, end_date):
 
 #start_date = date(2019, 1, 1)
 #end_date = date(2019, 12, 31)
-start_date = date(2019, 2, 10)
-end_date = date(2019, 2, 28)
+start_date = date(2020, 11, 1)
+end_date = date(2020, 12, 31)
 
 date = datetime.now()
 gy = int(date.strftime("%Y"))
@@ -51,8 +54,8 @@ for single_date in daterange(start_date, end_date):
   dm = int(single_date.strftime("%m"))
   dd = int(single_date.strftime("%d"))
 
-  sunrise = sun.getSunriseTime( coords, single_date )['decimal'] + TIMEZONE
-  sunset = sun.getSunsetTime( coords, single_date )['decimal'] + TIMEZONE
+  sunrise = sun.getSunriseTime( coords, single_date )['decimal']# + TIMEZONE
+  sunset = sun.getSunsetTime( coords, single_date )['decimal']# + TIMEZONE
   daylong = sunset - sunrise
   #print daylong
   hora = daylong/8
@@ -61,9 +64,9 @@ for single_date in daterange(start_date, end_date):
 
 
   print "BEGIN:VEVENT"
-  print "UID:"+uuid.uuid4().hex+"@rahukala.spiridonov.semion"
+  print "UID:"+uuid.uuid4().hex+"@rahukaal.spiridonov.simon"
   print "CLASS:PUBLIC"
-  print "DESCRIPTION:Постарайтесь не планировать важные дела на этот временной промежуток."
+#  print "DESCRIPTION:Quiet hour (Rahu Kaal)"
   print "DTSTAMP;VALUE=DATE-TIME:%d%02d%02dT090000" % (gy,gm,gd)
 
   #print single_date.weekday()
@@ -88,31 +91,31 @@ for single_date in daterange(start_date, end_date):
   if single_date.weekday() == 6:
     [sh,sm] = hm(sunrise + hora*7)
     [eh,em] = hm(sunrise + hora*8)
-  print "DTSTART;VALUE=DATE-TIME:%d%02d%02dT%02d%02d00" % (dy,dm,dd,sh,sm)
-  print "DTEND;VALUE=DATE-TIME:%d%02d%02dT%02d%02d00" % (dy,dm,dd,eh,em)
-  print "LOCATION:Москва, Россия"
-  print "SUMMARY;LANGUAGE=en-us:Раху Кала неблагоприятное время"
+  print "DTSTART;VALUE=DATE-TIME:%d%02d%02dT%02d%02d00Z" % (dy,dm,dd,sh,sm)
+  print "DTEND;VALUE=DATE-TIME:%d%02d%02dT%02d%02d00Z" % (dy,dm,dd,eh,em)
+#  print "LOCATION:Dortmund, Germany"
+  print "SUMMARY;LANGUAGE=en-us:Quiet hours"
   print "TRANSP:OPAQUE"
   print "END:VEVENT"
 
 
 
-  print "BEGIN:VEVENT"
-  print "UID:"+uuid.uuid4().hex+"@rahukala.spiridonov.semion"
-  print "CLASS:PUBLIC"
-  print "DESCRIPTION:Постарайтесь не планировать важные дела на этот временной промежуток."
-  print "DTSTAMP;VALUE=DATE-TIME:%d%02d%02dT090000" % (gy,gm,gd)
-
-  #print hm(sunset)
-  #print hm(sunset + hora)
-  [sh,sm] = hm(sunset)
-  [eh,em] = hm(sunset + hora)
-
-  print "DTSTART;VALUE=DATE-TIME:%d%02d%02dT%02d%02d00" % (dy,dm,dd,sh,sm)
-  print "DTEND;VALUE=DATE-TIME:%d%02d%02dT%02d%02d00" % (dy,dm,dd,eh,em)
-  print "LOCATION:Москва, Россия"
-  print "SUMMARY;LANGUAGE=en-us:Раху Кала после заката неблагоприятное время"
-  print "TRANSP:OPAQUE"
-  print "END:VEVENT"
+#   print "BEGIN:VEVENT"
+#   print "UID:"+uuid.uuid4().hex+"@rahukaal.spiridonov.simon"
+#   print "CLASS:PUBLIC"
+# #  print "DESCRIPTION:Quiet hour (Rahu Kaal)"
+#   print "DTSTAMP;VALUE=DATE-TIME:%d%02d%02dT090000" % (gy,gm,gd)
+#
+#   #print hm(sunset)
+#   #print hm(sunset + hora)
+#   [sh,sm] = hm(sunset)
+#   [eh,em] = hm(sunset + hora)
+#
+#   print "DTSTART;VALUE=DATE-TIME:%d%02d%02dT%02d%02d00Z" % (dy,dm,dd,sh,sm)
+#   print "DTEND;VALUE=DATE-TIME:%d%02d%02dT%02d%02d00Z" % (dy,dm,dd,eh,em)
+# #  print "LOCATION:Dortmund, Germany"
+#   print "SUMMARY;LANGUAGE=en-us:quiet h2"
+#   print "TRANSP:OPAQUE"
+#   print "END:VEVENT"
 
 print "END:VCALENDAR"
